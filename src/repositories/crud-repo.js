@@ -6,19 +6,7 @@ class CRUD{
     }
     
     async Create(data){
-        try {
-            return await this.model.create(data);
-        } catch (error) {
-            Logger.log({
-               level:'error',
-               message:'Error while inserting.',
-               errors:{
-                success: false,
-                error:error
-               }
-            });
-            throw error;
-        }
+        return await this.model.create(data);
     }
 
     async Read(){

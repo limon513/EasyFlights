@@ -1,23 +1,18 @@
 const {planeCrudService} = require('../services');
-const statuscodes = require('http-status-codes');
+const {StatusCodes} = require('http-status-codes');
+const {errorResponse,successResponse} = require('../utils/common')
 
 const createPlane = async function controller(req,res){
     try {
         const plane = await planeCrudService.createPlane({
           planeName : req.body.planeName,
-          capacity: req.body.capacity  
+          capacity: req.body.capacity
         });
-        return res.status(statuscodes.CREATED).json({
-            success:true,
-            message:'new Plane Created',
-            data:plane,
-            error:{}
-        });
+        successResponse.data = plane;
+        return res.status(StatusCodes.CREATED).json(successResponse);
     } catch (error) {
-        res.status(statuscodes.INTERNAL_SERVER_ERROR).json({
-            success:false,
-            error:{}
-        })
+        errorResponse.error = error;
+        return res.status(error.statusCode).json(errorResponse);
     }
 }
 
